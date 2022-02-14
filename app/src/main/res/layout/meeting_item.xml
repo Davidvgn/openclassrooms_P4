@@ -14,11 +14,24 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:importantForAccessibility="no"
+        android:src="@drawable/room_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        />
 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/meeting_item_iv_meetingRoom"
+        app:layout_constraintEnd_toEndOf="@id/meeting_item_iv_meetingRoom"
+        app:layout_constraintStart_toStartOf="@id/meeting_item_iv_meetingRoom"
+        app:layout_constraintTop_toTopOf="@id/meeting_item_iv_meetingRoom"
+        android:gravity="center"
+        tools:text="1"
+        />
 
     <TextView
         android:id="@+id/meeting_item_tv_subject"

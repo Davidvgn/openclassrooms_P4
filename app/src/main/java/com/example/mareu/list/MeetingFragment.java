@@ -18,6 +18,7 @@ public class MeetingFragment extends Fragment {
 
     public static MeetingFragment newInstance() {
         MeetingFragment fragment = new MeetingFragment();
+        fragment.setArguments(new Bundle());
         return fragment;
     }
 

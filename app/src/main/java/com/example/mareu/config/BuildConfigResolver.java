@@ -1,11 +1,11 @@
 package com.example.mareu.config;
 
-import androidx.viewbinding.BuildConfig;
+import com.example.mareu.BuildConfig;
 
 public class BuildConfigResolver {
 
-        public boolean isDebug() {
-            return BuildConfig.DEBUG;
-        }
+    public boolean isDebug() {
+        return BuildConfig.DEBUG;
     }
+}
 

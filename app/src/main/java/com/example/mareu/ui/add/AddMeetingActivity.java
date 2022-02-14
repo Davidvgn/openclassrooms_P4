@@ -28,26 +28,17 @@ public class AddMeetingActivity extends AppCompatActivity {
         return new Intent(context, AddMeetingActivity.class);
     }
 
-    private final MeetingRepository meetingRepository;
-
-
-    public AddMeetingActivity(MeetingRepository meetingRepository){
-        this.meetingRepository = meetingRepository;
-    }
-
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.add_meeting_activity);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+   //     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         AddMeetingViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(AddMeetingViewModel.class);
 
-        TextInputEditText room = findViewById(R.id.add_meeting_room);
+        TextInputEditText room = findViewById(R.id.add_meeting_room_edit);
         TextInputEditText timeEditText = findViewById(R.id.add_meeting_hour_edit);
         TextInputEditText subjectEditText = findViewById(R.id.add_meeting_subject_edit);
         Button addMeetingButton = findViewById(R.id.add_meeting_button);
