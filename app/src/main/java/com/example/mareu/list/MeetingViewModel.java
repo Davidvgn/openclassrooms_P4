@@ -1,5 +1,11 @@
 package com.example.mareu.list;
 
+import static android.graphics.Typeface.*;
+
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
@@ -17,20 +23,25 @@ public class MeetingViewModel extends ViewModel {
     public MeetingViewModel(MeetingRepository meetingRepository) {
     this.meetingRepository = meetingRepository;
     }
+
     public LiveData<List<MeetingViewStateItem>> getMeetingViewStateItemsLiveData() {
         return Transformations.map(meetingRepository.getMeetingsLiveData(), meetings -> {
             List<MeetingViewStateItem> meetingViewStateItem = new ArrayList<>();
 
             for (Meeting meeting : meetings) {
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+                builder.append(meeting.getHour())
+                    .append(" H ", new StyleSpan(BOLD), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    .append(meeting.getMin());
+
                 meetingViewStateItem.add(
-                new MeetingViewStateItem(
+                    new MeetingViewStateItem(
                         meeting.getId(),
-                        meeting.getHour(),
-                        meeting.getMin(),
+                        builder,
                         meeting.getMeetingRoom(),
                         meeting.getMeetingSubject(),
                         meeting.getParticipants()
-                )
+                    )
                 );
             }
             return meetingViewStateItem;

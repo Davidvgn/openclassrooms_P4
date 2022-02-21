@@ -39,8 +39,7 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.add_meeting_activity);
-
-        //     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         AddMeetingViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(AddMeetingViewModel.class);
 

@@ -3,7 +3,6 @@ package com.example.mareu.list;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,12 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.example.mareu.R;
-import com.example.mareu.data.Meeting;
-import com.example.mareu.data.MeetingRepository;
 import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MeetingAdapter extends ListAdapter<MeetingViewStateItem, MeetingAdapter.ViewHolder> {
@@ -46,8 +40,7 @@ public class MeetingAdapter extends ListAdapter<MeetingViewStateItem, MeetingAda
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView meetingRoomView;
-        private final TextView meetingHourView;
-        private final TextView meetingMinView;
+        private final TextView meetingTimeView;
         private final TextView meetingSubjectView;
         private final TextView meetingParticipantsView;
         private final ImageView deleteImageView;
@@ -55,8 +48,7 @@ public class MeetingAdapter extends ListAdapter<MeetingViewStateItem, MeetingAda
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             meetingRoomView = itemView.findViewById(R.id.meeting_item_iv_meetingRoom);
-            meetingHourView = itemView.findViewById(R.id.meeting_item_tv_hour);
-            meetingMinView = itemView.findViewById(R.id.meeting_item_tv_min);
+            meetingTimeView = itemView.findViewById(R.id.meeting_item_tv_time);
             meetingSubjectView = itemView.findViewById(R.id.meeting_item_tv_subject);
             meetingParticipantsView = itemView.findViewById(R.id.meeting_item_tv_emails);
             deleteImageView = itemView.findViewById(R.id.meeting_item_iv_delete);
@@ -67,8 +59,7 @@ public class MeetingAdapter extends ListAdapter<MeetingViewStateItem, MeetingAda
                     .load(item.getMeetingRoom())
                     .apply(RequestOptions.circleCropTransform())
                     .into(meetingRoomView);
-            meetingHourView.setText(item.getHour());
-            meetingMinView.setText(item.getMin());
+            meetingTimeView.setText(item.getTime());
             meetingSubjectView.setText(item.getMeetingSubject());
             meetingParticipantsView.setText(item.getParticipants());
             deleteImageView.setOnClickListener(v -> listener.onDeleteMeetingClicked(item.getId()));

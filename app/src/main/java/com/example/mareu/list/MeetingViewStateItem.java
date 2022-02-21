@@ -7,16 +7,14 @@ import java.util.Objects;
 public class MeetingViewStateItem {
 
     private final long id;
-    private final String hour;
-    private final String min;
+    private final CharSequence time;
     private final String meetingRoom;
     private final String meetingSubject;
     private final String participants;
 
-    public MeetingViewStateItem(long id, String hour,String min, String meetingRoom, String meetingSubject, String participants) {
+    public MeetingViewStateItem(long id, CharSequence time, String meetingRoom, String meetingSubject, String participants) {
         this.id = id;
-        this.hour = hour;
-        this.min = min;
+        this.time = time;
         this.meetingRoom = meetingRoom;
         this.meetingSubject = meetingSubject;
         this.participants = participants;
@@ -26,11 +24,8 @@ public class MeetingViewStateItem {
         return id;
     }
 
-    public String getHour() {
-        return hour;
-    }
-    public String getMin() {
-        return min;
+    public CharSequence getTime() {
+        return time;
     }
 
     public String getMeetingRoom() {
@@ -46,30 +41,29 @@ public class MeetingViewStateItem {
     }
 
     @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            MeetingViewStateItem that = (MeetingViewStateItem) o;
-            return id == that.id && hour.equals(that.hour) && min.equals(that.min) &&  meetingRoom.equals(that
-            .meetingRoom) && meetingSubject.equals(that.meetingSubject) && participants.equals((that.participants));
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(id, hour, min, meetingRoom, meetingSubject, participants);
-        }
-
-        @NonNull
-        @Override
-        public String toString() {
-            return "NeighboursViewStateItem{" +
-                    "id=" + id +
-                    ", hour='" + hour + '\'' +
-                    ", min='" + min + '\'' +
-                    ", meetingRoom='" + meetingRoom + '\'' +
-                    ", meetingSubject='" + meetingSubject + '\'' +
-                    ", participants='" + participants + '\'' +
-                    '}';
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MeetingViewStateItem that = (MeetingViewStateItem) o;
+        return id == that.id && time.equals(that.time) && meetingRoom.equals(that
+        .meetingRoom) && meetingSubject.equals(that.meetingSubject) && participants.equals((that.participants));
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, time, meetingRoom, meetingSubject, participants);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "NeighboursViewStateItem{" +
+                "id=" + id +
+                ", hour='" + time + '\'' +
+                ", meetingRoom='" + meetingRoom + '\'' +
+                ", meetingSubject='" + meetingSubject + '\'' +
+                ", participants='" + participants + '\'' +
+                '}';
+    }
+}
 
