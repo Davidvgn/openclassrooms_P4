@@ -1,15 +1,15 @@
 package com.example.mareu.data;
 
 import androidx.annotation.NonNull;
+
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Meeting {
 
     private final long id;
     @NonNull
-    private final String day;
-    @NonNull
-    private final String time;
+    private final LocalDateTime date;
     @NonNull
     private final String meetingRoom;
     @NonNull
@@ -18,15 +18,13 @@ public class Meeting {
     private final String participants;
 
     public Meeting(long id,
-                   @NonNull String day,
-                   @NonNull String time,
+                   @NonNull LocalDateTime date,
                    @NonNull String meetingRoom,
                    @NonNull String meetingSubject,
                    @NonNull String participants
     ) {
         this.id = id;
-        this.day = day;
-        this.time = time;
+        this.date = date;
         this.meetingRoom = meetingRoom;
         this.meetingSubject = meetingSubject;
         this.participants = participants;
@@ -37,13 +35,10 @@ public class Meeting {
     }
 
     @NonNull
-    public String getDay() {
-        return day;
+    public LocalDateTime getDate() {
+        return date;
     }
-    @NonNull
-    public String getTime() {
-        return time;
-    }
+
     @NonNull
     public String getMeetingRoom() {
         return meetingRoom;
@@ -62,25 +57,23 @@ public class Meeting {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Meeting meeting = (Meeting) o;
-        return id == meeting.id && day.equals(meeting.day) && time.equals(meeting.time) && meetingRoom.equals(meeting.meetingRoom) && meetingSubject.equals(meeting.meetingSubject) && participants.equals(meeting.participants);
+        return id == meeting.id && date.equals(meeting.date) && meetingRoom.equals(meeting.meetingRoom) && meetingSubject.equals(meeting.meetingSubject) && participants.equals(meeting.participants);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, time, meetingRoom, meetingSubject, participants);
+        return Objects.hash(id, date, meetingRoom, meetingSubject, participants);
     }
 
-    @NonNull
     @Override
     public String toString() {
-        return "Neighbour{" +
-                "id=" + id +
-                ", day=" + day +
-                ", time=" + time +
-                ", meetingRoom='" + meetingRoom + '\'' +
-                ", meetingSubject='" + meetingSubject + '\'' +
-                ", participants='" + participants + '\'' +
-                '}';
+        return "Meeting{" +
+            "id=" + id +
+            ", date=" + date +
+            ", meetingRoom='" + meetingRoom + '\'' +
+            ", meetingSubject='" + meetingSubject + '\'' +
+            ", participants='" + participants + '\'' +
+            '}';
     }
 }
 

@@ -11,8 +11,6 @@ import java.util.List;
 
 public class AddMeetingViewState {
 
-    private final MutableLiveData<List<Meeting>> meetingLiveData = new MutableLiveData<>(new ArrayList<>());
-
     @NonNull
     private final String day;
     @NonNull
@@ -20,7 +18,7 @@ public class AddMeetingViewState {
     @NonNull
     private final String meetingRoom;
 
-    public AddMeetingViewState(long id, @NonNull String day, @NonNull String time, @NonNull String meetingRoom) {
+    public AddMeetingViewState(@NonNull String day, @NonNull String time, @NonNull String meetingRoom) {
         this.day = day;
         this.time = time;
         this.meetingRoom = meetingRoom;

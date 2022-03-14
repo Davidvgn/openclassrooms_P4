@@ -15,6 +15,7 @@ import android.app.TimePickerDialog;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -89,6 +90,12 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
         bindAddButton(viewModel, date, time_editText, subjectEditText, participantEditText, addMeetingButton);
 
         viewModel.getCloseActivitySingleLiveEvent().observe(this, aVoid -> finish());
+        viewModel.getShowToastSingleLiveEvent().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String message) {
+                Toast.makeText(AddMeetingActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
