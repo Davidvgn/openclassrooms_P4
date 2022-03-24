@@ -1,68 +1,80 @@
 package com.example.mareu.ui.add;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
+
 import com.example.mareu.data.MeetingRepository;
 import com.example.mareu.utils.SingleLiveEvent;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class AddMeetingViewModel extends ViewModel {
 
     private final MeetingRepository meetingRepository;
-    private final MutableLiveData<String> calendarMutableLiveData = new MutableLiveData<>();
-    private final MutableLiveData<String> hourMutableLiveData = new MutableLiveData<>();
+
+    private final MutableLiveData<LocalDate> dateMutableLiveData = new MutableLiveData<>();
+    private final MutableLiveData<LocalTime> timeMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> roomMutableLiveData = new MutableLiveData<>();
 
-    private final MediatorLiveData<Boolean> isSaveButtonEnabledMediatorLiveData = new MediatorLiveData<>();
+    private final MediatorLiveData<AddMeetingViewState> addMeetingViewStateMediatorLiveData = new MediatorLiveData<>();
 
     private final SingleLiveEvent<Void> closeActivitySingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<String> showToastSingleLiveEvent = new SingleLiveEvent<>();
 
-    @NonNull
-    public String roomSelected = "";
-
     public AddMeetingViewModel(MeetingRepository meetingRepository) {
         this.meetingRepository = meetingRepository;
 
-        isSaveButtonEnabledMediatorLiveData.addSource(calendarMutableLiveData, new Observer<String>() {
+        addMeetingViewStateMediatorLiveData.addSource(dateMutableLiveData, new Observer<LocalDate>() {
             @Override
-            public void onChanged(String calendarOnChanged) {
-                combine(calendarOnChanged, hourMutableLiveData.getValue(), roomMutableLiveData.getValue()
-                );
+            public void onChanged(LocalDate date) {
+                combine(date, timeMutableLiveData.getValue(), roomMutableLiveData.getValue());
             }
         });
-        isSaveButtonEnabledMediatorLiveData.addSource(hourMutableLiveData, new Observer<String>() {
+        addMeetingViewStateMediatorLiveData.addSource(timeMutableLiveData, new Observer<LocalTime>() {
             @Override
-            public void onChanged(String hourOnchanged) {
-                combine(calendarMutableLiveData.getValue(), hourOnchanged, roomMutableLiveData.getValue()
-                );
+            public void onChanged(LocalTime time) {
+                combine(dateMutableLiveData.getValue(), time, roomMutableLiveData.getValue());
             }
         });
-        isSaveButtonEnabledMediatorLiveData.addSource(roomMutableLiveData, new Observer<String>() {
+        addMeetingViewStateMediatorLiveData.addSource(roomMutableLiveData, new Observer<String>() {
             @Override
             public void onChanged(String roomOnChanged) {
-                combine(calendarMutableLiveData.getValue(), hourMutableLiveData.getValue(), roomOnChanged
-                );
+                combine(dateMutableLiveData.getValue(), timeMutableLiveData.getValue(), roomOnChanged);
             }
         });
     }
 
-    private void combine(String calendar, String hour, String room
-    ) {
-        if (calendar != null && hour != null && room != null) {
-            isSaveButtonEnabledMediatorLiveData.setValue(true);
+    private void combine(@Nullable LocalDate date, @Nullable LocalTime time, @Nullable String room) {
+        String formattedDate = null;
+        String formattedTime = null;
+
+        if (date != null) {
+            formattedDate = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         }
+
+        if (time != null) {
+            formattedTime = time.format(DateTimeFormatter.ofPattern("HH:mm"));
+        }
+
+        addMeetingViewStateMediatorLiveData.setValue(
+            new AddMeetingViewState(
+                formattedDate,
+                formattedTime,
+                date != null && time != null && room != null
+            )
+        );
     }
 
-    public LiveData<Boolean> getIsSaveButtonEnabledLiveData() {
-        return isSaveButtonEnabledMediatorLiveData;
+    public LiveData<AddMeetingViewState> getAddMeetingViewStateLiveData() {
+        return addMeetingViewStateMediatorLiveData;
     }
 
     public SingleLiveEvent<Void> getCloseActivitySingleLiveEvent() {
@@ -73,16 +85,16 @@ public class AddMeetingViewModel extends ViewModel {
         return showToastSingleLiveEvent;
     }
 
-    public void onCalendarValueChanged(String calendar) {
-        calendarMutableLiveData.setValue(calendar);
+    public void onDateChanged(int selectedDayOfMonth, int selectedMonthOfYear, int selectedYear) {
+        dateMutableLiveData.setValue(LocalDate.of(selectedYear, selectedMonthOfYear + 1, selectedDayOfMonth));
     }
 
-    public void onTimeValueChanged(String time) {
-        hourMutableLiveData.setValue(time);
+    public void onTimeChanged(int selectedHour, int selectedMinutes) {
+        timeMutableLiveData.setValue(LocalTime.of(selectedHour, selectedMinutes));
     }
 
-    public void onRoomValueChanged(String room) {
-        roomMutableLiveData.setValue(room);
+    public void onRoomSelected(CharSequence room) {
+        roomMutableLiveData.setValue(room.toString());
     }
 
     public void onAddButtonClicked(
@@ -92,14 +104,19 @@ public class AddMeetingViewModel extends ViewModel {
         @NonNull String participants
     ) {
         boolean emailValidation = false;
-        String[] participantsSplitted = participants.split(",");
-        String emailRegex = "^[\\s]?+[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z{2,5}]+$";
-        for (String addresses : participantsSplitted) {
-            if (!addresses.matches(emailRegex)) {
-                emailValidation = false;
-                showToastSingleLiveEvent.setValue("Email non-valide");
-            } else {
-                emailValidation = true;
+
+        if (participants.isEmpty()) {
+            emailValidation = true;
+        } else {
+            String[] participantsSplit = participants.split(",");
+            String emailRegex = "^[\\s]?+[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z{2,5}]+$";
+            for (String addresses : participantsSplit) {
+                if (!addresses.matches(emailRegex)) {
+                    emailValidation = false;
+                    showToastSingleLiveEvent.setValue("Email non-valide");
+                } else {
+                    emailValidation = true;
+                }
             }
         }
 
@@ -132,9 +149,10 @@ public class AddMeetingViewModel extends ViewModel {
             }
         }
 
+        String selectedRoom = roomMutableLiveData.getValue();
 
-        if (emailValidation && localDate != null && localTime != null) {
-            boolean success = meetingRepository.addMeeting(LocalDateTime.of(localDate, localTime), roomSelected, meetingSubject, participants);
+        if (emailValidation && localDate != null && localTime != null && selectedRoom != null) {
+            boolean success = meetingRepository.addMeeting(LocalDateTime.of(localDate, localTime), selectedRoom, meetingSubject, participants);
 
             if (success) {
                 closeActivitySingleLiveEvent.call();
@@ -143,10 +161,6 @@ public class AddMeetingViewModel extends ViewModel {
 
             }
         }
-    }
-
-    public void onRoomSelected(CharSequence room) {
-        roomSelected = room.toString();
     }
 }
 

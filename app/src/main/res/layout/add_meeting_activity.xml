@@ -17,13 +17,13 @@
         tools:context=".ui.add.AddMeetingActivity">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_meeting_tie_day"
+            android:id="@+id/add_meeting_tiet_day"
             android:focusableInTouchMode="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@color/light_grey"
-            android:hint="Jour"
+            android:hint="@string/day"
             android:padding="16dp"
             android:textSize="16dp"
             android:textStyle="bold"
@@ -32,7 +32,7 @@
         </com.google.android.material.textfield.TextInputEditText>
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_meeting_tie_time"
+            android:id="@+id/add_meeting_tiet_time"
             android:focusableInTouchMode="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             android:textSize="16dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_meeting_tie_day">
+            app:layout_constraintTop_toBottomOf="@id/add_meeting_tiet_day">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -55,7 +55,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_meeting_tie_time">
+            app:layout_constraintTop_toBottomOf="@id/add_meeting_tiet_time">
 
         <AutoCompleteTextView
                 android:id="@+id/add_meeting_act_room"
@@ -79,7 +79,7 @@
             app:layout_constraintTop_toBottomOf="@id/add_meeting_til_room">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_meeting_subject_tie_subject"
+                android:id="@+id/add_meeting_subject_tiet_subject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/light_grey"
@@ -100,7 +100,7 @@
             app:layout_constraintTop_toBottomOf="@id/add_meeting_til_subject">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_meeting_tie_participants"
+                android:id="@+id/add_meeting_tiet_participants"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/light_grey"

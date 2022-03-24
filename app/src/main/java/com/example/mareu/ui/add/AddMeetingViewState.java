@@ -1,41 +1,59 @@
 package com.example.mareu.ui.add;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import androidx.annotation.Nullable;
 
-import com.example.mareu.data.Meeting;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class AddMeetingViewState {
 
-    @NonNull
-    private final String day;
-    @NonNull
+    @Nullable
+    private final String date;
+    @Nullable
     private final String time;
-    @NonNull
-    private final String meetingRoom;
 
-    public AddMeetingViewState(@NonNull String day, @NonNull String time, @NonNull String meetingRoom) {
-        this.day = day;
+    private final boolean isSaveButtonEnabled;
+
+    public AddMeetingViewState(@Nullable String date, @Nullable String time, boolean isSaveButtonEnabled) {
+        this.date = date;
         this.time = time;
-        this.meetingRoom = meetingRoom;
+        this.isSaveButtonEnabled = isSaveButtonEnabled;
     }
 
-    @NonNull
-    public String getDay() {
-        return day;
+    @Nullable
+    public String getDate() {
+        return date;
     }
 
-    @NonNull
+    @Nullable
     public String getTime() {
         return time;
     }
 
+    public boolean isSaveButtonEnabled() {
+        return isSaveButtonEnabled;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AddMeetingViewState that = (AddMeetingViewState) o;
+        return isSaveButtonEnabled == that.isSaveButtonEnabled && Objects.equals(date, that.date) && Objects.equals(time, that.time);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, time, isSaveButtonEnabled);
+    }
+
     @NonNull
-    public String getMeetingRoom() {
-        return meetingRoom;
+    @Override
+    public String toString() {
+        return "AddMeetingViewState{" +
+            "date='" + date + '\'' +
+            ", time='" + time + '\'' +
+            ", isSaveButtonEnabled=" + isSaveButtonEnabled +
+            '}';
     }
 }
